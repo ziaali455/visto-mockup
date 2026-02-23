@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} | VistoPay{{ end }}</title>
-  <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
+  <title id="pageTitle">Protected</title>
+  <meta name="description" content="">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -15,8 +15,7 @@
   <!-- Password Gate -->
   <div id="passwordGate" style="display:none;position:fixed;inset:0;z-index:9999;background:var(--black,#0D0D0D);display:flex;align-items:center;justify-content:center;">
     <div style="text-align:center;max-width:400px;padding:2rem;">
-      <div style="font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:800;background:linear-gradient(135deg,#FFD700,#FFA500);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.5rem;">VistoPay</div>
-      <p style="color:#888;margin-bottom:2rem;font-size:0.95rem;">Enter the password to access this site.</p>
+      <p style="color:#888;margin-bottom:1.5rem;font-size:0.95rem;">Enter password to continue</p>
       <form id="passwordForm" onsubmit="return checkPassword(event)">
         <input id="passwordInput" type="password" placeholder="Password" autocomplete="off"
           style="width:100%;padding:1rem 1.2rem;border-radius:12px;border:2px solid #2A2A2A;background:#1A1A1A;color:#F5F5F5;font-size:1rem;font-family:'Inter',sans-serif;outline:none;margin-bottom:1rem;transition:border-color 0.3s;"
@@ -81,9 +80,11 @@
       }
       var gate = document.getElementById('passwordGate');
       var content = document.getElementById('siteContent');
+      var realTitle = '{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} | VistoPay{{ end }}';
       if (sessionStorage.getItem('vp_auth') === hash) {
         gate.style.display = 'none';
         content.style.display = 'block';
+        document.title = realTitle;
       } else {
         gate.style.display = 'flex';
         content.style.display = 'none';
@@ -96,6 +97,7 @@
             sessionStorage.setItem('vp_auth', hash);
             gate.style.display = 'none';
             content.style.display = 'block';
+            document.title = realTitle;
           } else {
             document.getElementById('passwordError').style.display = 'block';
             document.getElementById('passwordInput').style.borderColor = '#ff4444';
