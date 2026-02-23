@@ -12,6 +12,25 @@
   <link rel="stylesheet" href="{{ $css.RelPermalink }}">
 </head>
 <body>
+  <!-- Password Gate -->
+  <div id="passwordGate" style="display:none;position:fixed;inset:0;z-index:9999;background:var(--black,#0D0D0D);display:flex;align-items:center;justify-content:center;">
+    <div style="text-align:center;max-width:400px;padding:2rem;">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:800;background:linear-gradient(135deg,#FFD700,#FFA500);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.5rem;">VistoPay</div>
+      <p style="color:#888;margin-bottom:2rem;font-size:0.95rem;">Enter the password to access this site.</p>
+      <form id="passwordForm" onsubmit="return checkPassword(event)">
+        <input id="passwordInput" type="password" placeholder="Password" autocomplete="off"
+          style="width:100%;padding:1rem 1.2rem;border-radius:12px;border:2px solid #2A2A2A;background:#1A1A1A;color:#F5F5F5;font-size:1rem;font-family:'Inter',sans-serif;outline:none;margin-bottom:1rem;transition:border-color 0.3s;"
+          onfocus="this.style.borderColor='#FFD700'" onblur="this.style.borderColor='#2A2A2A'">
+        <p id="passwordError" style="color:#ff4444;font-size:0.85rem;margin-bottom:1rem;display:none;">Incorrect password. Try again.</p>
+        <button type="submit"
+          style="width:100%;padding:0.9rem;border-radius:12px;border:none;background:linear-gradient(135deg,#FFD700,#FFA500);color:#0D0D0D;font-weight:700;font-size:1rem;font-family:'Inter',sans-serif;cursor:pointer;box-shadow:0 4px 25px rgba(255,215,0,0.3);transition:all 0.3s;">
+          Enter
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div id="siteContent" style="display:none;">
   <div class="cursor-glow" id="cursorGlow"></div>
 
   <!-- Navbar -->
@@ -47,7 +66,44 @@
     </div>
   </footer>
 
+  </div><!-- end siteContent -->
+
   {{ $js := resources.Get "js/main.js" }}
   <script src="{{ $js.RelPermalink }}"></script>
+  <script>
+    (function() {
+      var hash = 'c3ea99f86b2f8a74ef4145bb245155ff5f91cd856f287523481c15a1959d5fd1';
+      function sha256(str) {
+        var buf = new TextEncoder().encode(str);
+        return crypto.subtle.digest('SHA-256', buf).then(function(h) {
+          return Array.from(new Uint8Array(h)).map(function(b) { return b.toString(16).padStart(2,'0'); }).join('');
+        });
+      }
+      var gate = document.getElementById('passwordGate');
+      var content = document.getElementById('siteContent');
+      if (sessionStorage.getItem('vp_auth') === hash) {
+        gate.style.display = 'none';
+        content.style.display = 'block';
+      } else {
+        gate.style.display = 'flex';
+        content.style.display = 'none';
+      }
+      window.checkPassword = function(e) {
+        e.preventDefault();
+        var val = document.getElementById('passwordInput').value;
+        sha256(val).then(function(h) {
+          if (h === hash) {
+            sessionStorage.setItem('vp_auth', hash);
+            gate.style.display = 'none';
+            content.style.display = 'block';
+          } else {
+            document.getElementById('passwordError').style.display = 'block';
+            document.getElementById('passwordInput').style.borderColor = '#ff4444';
+          }
+        });
+        return false;
+      };
+    })();
+  </script>
 </body>
 </html>
