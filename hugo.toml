@@ -1,0 +1,26 @@
+baseURL = 'https://vistopay.com/'
+languageCode = 'en-us'
+title = 'VistoPay - Your Gateway to Financial Freedom in the US'
+theme = 'vistopay'
+
+[params]
+  description = "Check your B1/B2 visa eligibility and get a debit card for spending in the US."
+  tagline = "Your Gateway to Financial Freedom in the US"
+
+[menu]
+  [[menu.main]]
+    name = "Home"
+    url = "/"
+    weight = 1
+  [[menu.main]]
+    name = "Eligibility"
+    url = "/survey/"
+    weight = 2
+  [[menu.main]]
+    name = "Roadmap"
+    url = "/roadmap/"
+    weight = 3
+  [[menu.main]]
+    name = "About"
+    url = "/about/"
+    weight = 4

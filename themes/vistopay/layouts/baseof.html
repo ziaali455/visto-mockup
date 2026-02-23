@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="{{ site.Language.LanguageCode }}" dir="{{ or site.Language.LanguageDirection `ltr` }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} | VistoPay{{ end }}</title>
+  <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  {{ $css := resources.Get "css/main.css" }}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}">
+</head>
+<body>
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="/" class="logo">Visto<span>Pay</span></a>
+      <ul class="nav-links" id="navLinks">
+        {{ range site.Menus.main }}
+        <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+        {{ end }}
+        <li><a href="/survey/" class="btn btn-primary" style="padding:0.6rem 1.5rem;font-size:0.9rem;">Get Started</a></li>
+      </ul>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <main>
+    {{ block "main" . }}{{ end }}
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">VistoPay</div>
+      <ul class="footer-links">
+        <li><a href="/survey/">Eligibility</a></li>
+        <li><a href="/roadmap/">Roadmap</a></li>
+        <li><a href="/about/">About</a></li>
+      </ul>
+      <p class="footer-copy">&copy; {{ now.Year }} VistoPay. All rights reserved.</p>
+    </div>
+  </footer>
+
+  {{ $js := resources.Get "js/main.js" }}
+  <script src="{{ $js.RelPermalink }}"></script>
+</body>
+</html>
