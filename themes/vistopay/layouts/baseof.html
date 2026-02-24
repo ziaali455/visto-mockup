@@ -35,12 +35,12 @@
   <!-- Navbar -->
   <nav class="navbar" id="navbar">
     <div class="navbar-inner">
-      <a href="/" class="logo">Visto<span>Pay</span></a>
+      <a href="{{ relURL "/" }}" class="logo">Visto<span>Pay</span></a>
       <ul class="nav-links" id="navLinks">
         {{ range site.Menus.main }}
-        <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+        <li><a href="{{ .URL | relURL }}">{{ .Name }}</a></li>
         {{ end }}
-        <li><a href="/survey/" class="btn btn-primary" style="padding:0.6rem 1.5rem;font-size:0.9rem;">Get Started</a></li>
+        <li><a href="{{ relURL "/survey/" }}" class="btn btn-primary" style="padding:0.6rem 1.5rem;font-size:0.9rem;">Get Started</a></li>
       </ul>
       <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
         <span></span><span></span><span></span>
@@ -57,9 +57,9 @@
     <div class="footer-inner">
       <div class="footer-logo">VistoPay</div>
       <ul class="footer-links">
-        <li><a href="/survey/">Eligibility</a></li>
-        <li><a href="/roadmap/">Roadmap</a></li>
-        <li><a href="/about/">About</a></li>
+        <li><a href="{{ relURL "/survey/" }}">Eligibility</a></li>
+        <li><a href="{{ relURL "/roadmap/" }}">Roadmap</a></li>
+        <li><a href="{{ relURL "/about/" }}">About</a></li>
       </ul>
       <p class="footer-copy">&copy; {{ now.Year }} VistoPay. All rights reserved.</p>
     </div>
