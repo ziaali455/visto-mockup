@@ -2,7 +2,6 @@ baseURL = 'https://vistopay.com/'
 languageCode = 'en-us'
 title = 'VistoPay - Your Gateway to Financial Freedom in the US'
 theme = 'vistopay'
-relativeURLs = true
 
 [params]
   description = "Check your B1/B2 visa eligibility and get a debit card for spending in the US."
